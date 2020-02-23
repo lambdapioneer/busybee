@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+env
+
+# IDE
+.vscode
+
+# Build artefacts
+*.egg-info/
+*.egg
+
+# Coverage3
+htmlcov/
+.coverage
