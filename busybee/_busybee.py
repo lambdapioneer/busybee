@@ -209,4 +209,10 @@ def _map(
 
     # after execution
     println(_finish_string(time_start, num_total, tag))
+
+    # clean up! See: https://bugs.python.org/issue34172 - Python
+    # does NOT terminate the background pool processes by default even
+    # though the documentation claims it does so when being GCed.
+    pool.close()
+
     return result
