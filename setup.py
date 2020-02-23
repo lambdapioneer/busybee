@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="busybee",
-    version="0.1.0",
+    version="0.1.1",
     author="Daniel H",
     author_email="not_provided@example.org",
     description="Simple and interactive multi-processing for Python and notebooks",
