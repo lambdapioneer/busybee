@@ -62,7 +62,7 @@ def _parse_core_spec(core_spec, core_count=lambda: mp.cpu_count()):
         if operator == '-':
             return max(n - operand, 1)
         elif operator == '/':
-            return max(n / operand, 1)
+            return max(int(n / operand), 1)
         else:  # pragma: no cover
             raise AssertionError()
 

@@ -41,6 +41,11 @@ class processespecParsingTestSuite(unittest.TestCase):
                 n//2,
                 _busybee._parse_core_spec("n/2", core_count=lambda: n))
 
+    def test_core_spec_parser_WHEN_floating_n_formula_THEN_rounded_down(self):
+        self.assertEqual(
+            1,
+            _busybee._parse_core_spec("n/2", core_count=lambda: 3))
+
     def test_core_spec_parser_WHEN_n_formula_goes_too_low_THEN_calculated_processes_always_positive(self):
         n = 8
         self.assertEqual(
