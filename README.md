@@ -61,9 +61,9 @@ result = busybee.map(
 
 **Why did you built it? And why shouldn't I just use the `multiprocessing` module**
 
-I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often not involved than a one-line change.
+I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often more involved than a one-line change.
 
-More importantly, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some coffee ☕.
+More importantly, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some tea/coffee ☕.
 
 **I want a different output!**
 
