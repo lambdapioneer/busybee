@@ -1,14 +1,13 @@
 # BusyBee 🐝
 
- - Interactive multiprocessing for slow I/O and calculation in your notebook
+ - Simple, interactive multiprocessing for slow I/O and calculation in your notebook
  - Simple to use as a drop-in replacement for the standard `map` function
+ - Prints the current progress and remaining time estimate
  - No external dependencies and 100% test coverage
 
-## Quick start 👩‍💻 👨‍💻
+## Quick start
 
-Starting is as simple as installing the BusyBee module via `pip` and to use it as a replacement for your current `map` function.
-
-The way BusyBee works requires you to provide the data in a way exposes its length via `len()`. Ideally, provide it as a `list`.
+Install the BusyBee module via `pip` and use it as a replacement for your current `map` function. As BusyBee needs to know to total number of items the data must expose its length to `len()` calls. The best approach is to provide it as a `list`.
 
 **Install:**
 
@@ -26,18 +25,18 @@ result = busybee.map(func, data)
 **Output:**
 
 ```C
-BusyBee: Start processing 1000 items with 8 processes...
-BusyBee:  302/1000, 30.2% (avg: 6ms, rem: 4.6s)
-BusyBee:  500/1000, 50.0% (avg: 6ms, rem: 3.2s)
-BusyBee:  617/1000, 61.7% (avg: 6ms, rem: 2.5s)
-BusyBee:  938/1000, 93.8% (avg: 6ms, rem: 0.4s)
-BusyBee: Finished processing 1000 items in 6.3s (avg: 6ms)
+BusyBee: Start processing 42 items with 8 processes...
+BusyBee:  3/42,  7.1% (avg: 7.7s, rem: 4:58m)
+BusyBee: 18/42, 42.9% (avg: 2.6s, rem: 62.1s)
+BusyBee: 21/42, 50.0% (avg: 2.3s, rem: 49.1s)
+BusyBee: 28/42, 66.7% (avg: 2.5s, rem: 34.6s)
+BusyBee: 39/42, 92.9% (avg: 2.3s, rem: 7.0s)
+BusyBee: Finished processing 42 items in 99.6s (avg: 2.4s)
 ```
 
 ## Advanced usage 👩‍💻 👨‍💻
 
-You can configure the amount of cores to be used using the `processes` argument. For this you can either provide a number (e.g. 1, 8) or a simple formula such as `n/2`
-or `n-1`. The `n` refers to the logical number of CPU cores returned by the `multiprocessing` module.
+You can configure the amount of cores to be used using the `processes` argument. For this you can either provide a number (e.g. 1, 8) or a simple formula such as `n/2` or `n-1`. The `n` refers to the logical number of CPU cores returned by the `multiprocessing` module.
 
 Further, you can configure the output by providing a custom `stdout` sink and configuring how often you want to receive an update. You can do so by using the arguments `update_every_n_seconds` (default: 10) and `update_every_n_percent` (default: 50).
 
@@ -60,14 +59,13 @@ result = busybee.map(
 
 **Why did you built it? And why shouldn't I just use the `multiprocessing` module**
 
-I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often more than a simple one-line change.
+I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often not involved than a one-line change.
 
-More importantly, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some coffee in the mean time. ☕
+More importantly, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some coffee ☕.
 
 **I want a different output!**
 
-I want to allow choosing from certain output styles. This is on my roadmap, but I do not have any certain date in mind. To maintain the
-simplicity I do not envision supporting custom output formatting. However, I am happy to be convinced otherwise.
+I want to allow choosing from certain output styles. This is on my roadmap, but I do not have any certain date in mind. To maintain the simplicity I do not envision supporting custom output formatting. However, I am happy to be convinced otherwise.
 
 ## Contribute 👋
 
@@ -87,7 +85,7 @@ If you want to reference BusyBee in documentation or articles, feel free to use 
 ```
 @misc{hugenroth2020busybee,
   author={{Daniel Hugenroth}},
-  title={BusyBee (Python Module)},
+  title={BusyBee Python Software Library},
   year={2020},
   url={https://github.com/lambdapioneer/busybee},
 }
