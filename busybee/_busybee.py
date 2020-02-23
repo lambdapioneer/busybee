@@ -97,6 +97,10 @@ class _ProgressUpdateLimit():
         """Returns `True` if an output should be provided to the user. Updates
         the internal state to track the most recent output.
         """
+        if num_processed == self.num_total:
+            # Do not print the 100% update as the finish message will follow directly afterwards
+            return False
+
         if self.every_n_seconds:
             current_time = current_time() if current_time else time.time()
             if current_time - self.time_last_update >= self.every_n_seconds:
@@ -196,9 +200,10 @@ def _map(
     # actual execution
     result = []
     meta_args = [(func, d) for d in data]
-    for num_processed, r in enumerate(pool.imap(_meta_func, meta_args, chunksize=chunksize)):
+    for idx, r in enumerate(pool.imap(_meta_func, meta_args, chunksize=chunksize)):
         result.append(r)
 
+        num_processed = idx + 1
         if update_limit.should_print(num_processed):
             println(_progress_string(time_start, num_processed, num_total, tag))
 

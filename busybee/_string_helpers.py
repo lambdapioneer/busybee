@@ -95,7 +95,7 @@ def _progress_string(time_start, num_processed, num_total, tag, current_time=lam
     time_remaining = time_avg * items_remaining if time_avg else None
 
     fmt_tag = "{tag}"
-    fmt_items = "{num_processed: >%d}/{num_total: >%d}, {percent:2.1f}%%" % (
+    fmt_items = "{num_processed: >%d}/{num_total: >%d}, {percent:4.1f}%%" % (
         digits, digits)
     fmt_times = "avg: {time_avg}, rem: {time_remaining}"
     fmt_string = "%s: %s (%s)" % (fmt_tag, fmt_items, fmt_times)

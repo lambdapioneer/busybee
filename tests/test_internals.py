@@ -118,3 +118,13 @@ class ProgressUpdateLimitTestSuite(unittest.TestCase):
         self.assertEqual(False, pul.should_print(0, lambda: 20))
         self.assertEqual(False, pul.should_print(10, lambda: 200))
         self.assertEqual(False, pul.should_print(100, lambda: 2000))
+
+    def test_progress_update_limit_WHEN_100_percent_THEN_no_update(self):
+        pul = _busybee._ProgressUpdateLimit(
+            time_start=0.0,
+            num_total=100,
+            every_n_seconds=1,
+            every_n_percent=1,
+        )
+
+        self.assertEqual(False, pul.should_print(100, lambda: 100))
