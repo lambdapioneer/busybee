@@ -6,6 +6,8 @@ env
 .vscode
 
 # Build artefacts
+build
+dist
 *.egg-info/
 *.egg
 
