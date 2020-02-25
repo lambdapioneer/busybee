@@ -141,7 +141,7 @@ def _map(
             therefore it must not be a lambda expression.
 
         data (list): The data that is processed by `func`. This must provide random access and `len()` support.
-                    Ideally this is a simple list.
+                     Ideally this is a simple list.
 
         quiet (bool): If `True`, no output is generated
 
@@ -215,4 +215,44 @@ def _map(
     # though the documentation claims it does so when being GCed.
     pool.close()
 
+    return result
+
+
+def _filter(
+    func,
+    data,
+    quiet=False,
+    processes="n",
+    tag="BusyBee",
+    stdout=sys.stdout,
+    update_every_n_seconds=5,
+    update_every_n_percent=50,
+):
+    """Applies the given `func` to every item in `data` using up to the number of processes
+    specified by `processes`. Returns all `data` items where `func` evaluates `True`.
+
+    Args:
+        func: The function that will be applied to the `data` items. It needs to be pickleable and
+            therefore it must not be a lambda expression.
+
+        data (list): The data that is processed by `func`. This must provide random access and `len()` support.
+                     Ideally this is a simple list.
+
+        For the other arguments see the map(...) function.
+
+    Returns:
+        The filterred items following the order of the original list.
+    """
+    is_included = _map(
+        func=func,
+        data=data,
+        quiet=quiet,
+        processes=processes,
+        tag=tag,
+        stdout=stdout,
+        update_every_n_seconds=update_every_n_seconds,
+        update_every_n_percent=update_every_n_percent,
+    )
+
+    result = [item for idx, item in enumerate(data) if is_included[idx]]
     return result

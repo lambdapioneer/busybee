@@ -10,11 +10,13 @@ from .context import busybee
 
 class CorrectnessTestSuite(unittest.TestCase):
 
-    def test_list_WHEN_empty_list_THEN_empty_list(self):
+    # map(...)
+
+    def test_map_WHEN_empty_list_THEN_empty_list(self):
         actual = busybee.map(func_add_one, [], stdout=NullStdout())
         self.assertListEqual(actual, [])
 
-    def test_list_WHEN_executed_one_core_THEN_in_order_and_applied(self):
+    def test_map_WHEN_executed_one_core_THEN_in_order_and_applied(self):
         actual = busybee.map(
             func=func_add_one,
             data=list(range(0, 1000)),
@@ -23,7 +25,7 @@ class CorrectnessTestSuite(unittest.TestCase):
         )
         self.assertListEqual(actual, list(range(1, 1001)))
 
-    def test_list_WHEN_executed_many_processes_THEN_in_order_and_applied(self):
+    def test_map_WHEN_executed_many_processes_THEN_in_order_and_applied(self):
         actual = busybee.map(
             func=func_add_one,
             data=list(range(0, 1000)),
@@ -32,7 +34,7 @@ class CorrectnessTestSuite(unittest.TestCase):
         )
         self.assertListEqual(actual, list(range(1, 1001)))
 
-    def test_list_WHEN_executed_all_processes_THEN_in_order_and_applied(self):
+    def test_map_WHEN_executed_all_processes_THEN_in_order_and_applied(self):
         actual = busybee.map(
             func=func_add_one,
             data=list(range(0, 1000)),
@@ -41,16 +43,49 @@ class CorrectnessTestSuite(unittest.TestCase):
         )
         self.assertListEqual(actual, list(range(1, 1001)))
 
+    def test_filter_WHEN_empty_list_THEN_empty_list(self):
+        actual = busybee.filter(func_add_one, [], stdout=NullStdout())
+        self.assertListEqual(actual, [])
+
+    # filter(...)
+
+    def test_filter_WHEN_executed_one_core_THEN_in_order_and_applied(self):
+        actual = busybee.filter(
+            func=func_is_even,
+            data=list(range(0, 1000)),
+            processes=1,
+            stdout=NullStdout(),
+        )
+        self.assertListEqual(actual, list(range(0, 1000, 2)))
+
+    def test_filter_WHEN_executed_many_processes_THEN_in_order_and_applied(self):
+        actual = busybee.filter(
+            func=func_is_even,
+            data=list(range(0, 1000)),
+            processes=8,
+            stdout=NullStdout(),
+        )
+        self.assertListEqual(actual, list(range(0, 1000, 2)))
+
+    def test_filter_WHEN_executed_all_processes_THEN_in_order_and_applied(self):
+        actual = busybee.filter(
+            func=func_is_even,
+            data=list(range(0, 1000)),
+            processes='n',
+            stdout=NullStdout(),
+        )
+        self.assertListEqual(actual, list(range(0, 1000, 2)))
+
 
 class OutputTestSuite(unittest.TestCase):
 
-    def test_list_WHEN_empty_list_THEN_warning_output(self):
+    def test_map_WHEN_empty_list_THEN_warning_output(self):
         recorder = RecordingStdout()
         busybee.map(None, [], stdout=recorder)
 
         self.assertIn("skipping because of empty input", recorder.output)
 
-    def test_list_WHEN_quiet_on_THEN_no_output(self):
+    def test_map_WHEN_quiet_on_THEN_no_output(self):
         recorder = RecordingStdout()
         busybee.map(
             func=func_add_one,
@@ -61,7 +96,7 @@ class OutputTestSuite(unittest.TestCase):
 
         self.assertEqual("", recorder.output)
 
-    def test_list_WHEN_executing_THEN_outputs_core_information(self):
+    def test_map_WHEN_executing_THEN_outputs_core_information(self):
         recorder = RecordingStdout()
 
         # Note: func_add_one_slow takes ~10ms. Therefore this finishes in
@@ -116,3 +151,8 @@ def func_add_one_slow(x):
     """Waits 10ms and returns x + 1."""
     time.sleep(10 / 1000)
     return x + 1
+
+
+def func_is_even(x):
+    """Returns `True` iff x is divisible by 2."""
+    return x % 2 == 0
