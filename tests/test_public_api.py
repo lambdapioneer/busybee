@@ -76,6 +76,34 @@ class CorrectnessTestSuite(unittest.TestCase):
         )
         self.assertListEqual(actual, list(range(0, 1000, 2)))
 
+    # mk_dict(...)
+
+    def test_mk_dict_WHEN_empty_THEN_returns_empty_dict(self):
+        actual = busybee.mk_dict(
+            func=func_add_one,
+            keys=[],
+            stdout=NullStdout(),
+        )
+        self.assertDictEqual(actual, {})
+
+    def test_mk_dict_WHEN_one_process_THEN_in_order(self):
+        actual = busybee.mk_dict(
+            func=func_add_one,
+            keys=[1, 2, 3, 4, 5],
+            stdout=NullStdout(),
+            processes=1,
+        )
+        self.assertDictEqual(actual, {1: 2, 2: 3, 3: 4, 4: 5, 5: 6})
+
+    def test_mk_dict_WHEN_many_processes_THEN_in_order(self):
+        actual = busybee.mk_dict(
+            func=func_add_one,
+            keys=[1, 2, 3, 4, 5],
+            stdout=NullStdout(),
+            processes=8,
+        )
+        self.assertDictEqual(actual, {1: 2, 2: 3, 3: 4, 4: 5, 5: 6})
+
 
 class OutputTestSuite(unittest.TestCase):
 

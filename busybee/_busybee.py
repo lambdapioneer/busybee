@@ -256,3 +256,46 @@ def _filter(
 
     result = [item for idx, item in enumerate(data) if is_included[idx]]
     return result
+
+
+def _mk_dict(
+    func,
+    keys,
+    quiet=False,
+    processes="n",
+    tag="BusyBee",
+    stdout=sys.stdout,
+    update_every_n_seconds=5,
+    update_every_n_percent=50,
+):
+    """Creates a new dictionary with the given `keys` and values as the application of `func`
+    to the individual key.
+
+    Args:
+        func: The function that will be applied to the `keys` items to derive the respective values.
+              It needs to be pickleable and therefore it must not be a lambda expression.
+
+        keys (list): The keys of the new dictionary. This must provide random access and `len()` support.
+                     Ideally this is a simple list.
+
+        For the other arguments see the map(...) function.
+
+    Returns:
+        The a new dictionary with the given `keys` and values as `func(keys)`.
+    """
+
+    # Remove duplicates before processing; convert to list to ensure order
+    unique_keys = list(set(keys))
+
+    values = _map(
+        func=func,
+        data=unique_keys,
+        quiet=quiet,
+        processes=processes,
+        tag=tag,
+        stdout=stdout,
+        update_every_n_seconds=update_every_n_seconds,
+        update_every_n_percent=update_every_n_percent,
+    )
+
+    return dict(zip(unique_keys, values))
