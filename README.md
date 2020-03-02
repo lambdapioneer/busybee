@@ -80,7 +80,7 @@ Awesome that you are interested in improving this code! When contributing, pleas
     - Run `python3 -m unittest tests/test*` after you added test cases for your changes
     - Run `coverage3 run --source busybee setup.py test && coverage3 report` to ensure that the code is actually fully covered
 
-## Reference/BibText 📚
+## Reference/BibTex 📚
 
 If you want to reference BusyBee in documentation or articles, feel free to use this suggested BibTex snippet:
 
