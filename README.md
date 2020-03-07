@@ -7,6 +7,8 @@
 
 The PyPI project page is here: https://pypi.org/project/busybee/
 
+[![CircleCI](https://circleci.com/gh/lambdapioneer/busybee.svg?style=svg)](https://circleci.com/gh/lambdapioneer/busybee)
+
 ## Quick start
 
 Install the BusyBee module via `pip` and use it as a replacement for your current `map` function. As BusyBee needs to know to total number of items the data must expose its length to `len()` calls. The best approach is to provide it as a `list`.
