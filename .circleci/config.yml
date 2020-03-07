@@ -8,4 +8,4 @@ jobs:
       - checkout
       - run:
           name: Run Python3 unit tests
-          command: python3 -m unittest tests/test*
+          command: python3 -m unittest tests/test* -v
