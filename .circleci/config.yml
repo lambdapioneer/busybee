@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build-and-test:
+    working_directory: ~/busybee
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout
+      - run:
+          name: Run Python3 unit tests
+          command: python3 -m unittest tests/test*
