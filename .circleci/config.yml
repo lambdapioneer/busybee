@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-and-test:
+  build:
     working_directory: ~/busybee
     docker:
       - image: circleci/python:3.6.4
