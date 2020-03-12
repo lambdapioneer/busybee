@@ -117,9 +117,17 @@ class _ProgressUpdateLimit():
 
 
 def _meta_func(args):
-    """Takes args in the form `(func, data)` and calls `func(data)`."""
+    """Takes args in the form `(func, data)` and calls `func(data)`.
+
+    Returns a tuple consisting of the `func` return value and the processing time in seconds.
+    """
+    time_start = time.time()
+
     func, data = args
-    return func(data)
+    result = func(data)
+
+    time_delta = time.time() - time_start
+    return result, time_delta
 
 
 def _map(
@@ -196,19 +204,29 @@ def _map(
 
     # before execution
     println(_start_string(num_total, tag, num_processes))
+    total_cpu_time = 0.0
 
     # actual execution
     result = []
     meta_args = [(func, d) for d in data]
     for idx, r in enumerate(pool.imap(_meta_func, meta_args, chunksize=chunksize)):
-        result.append(r)
+        out, time_delta = r
+        result.append(out)
 
         num_processed = idx + 1
+        total_cpu_time += time_delta
+
         if update_limit.should_print(num_processed):
-            println(_progress_string(time_start, num_processed, num_total, tag))
+            println(_progress_string(
+                total_cpu_time,
+                num_processed,
+                num_total,
+                num_processes,
+                tag)
+            )
 
     # after execution
-    println(_finish_string(time_start, num_total, tag))
+    println(_finish_string(time_start, total_cpu_time, num_total, tag))
 
     # clean up! See: https://bugs.python.org/issue34172 - Python
     # does NOT terminate the background pool processes by default even

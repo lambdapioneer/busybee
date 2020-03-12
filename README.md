@@ -30,12 +30,12 @@ result = busybee.map(func, data)
 
 ```C
 BusyBee: Start processing 42 items with 8 processes...
-BusyBee:  3/42,  7.1% (avg: 7.7s, rem: 4:58m)
-BusyBee: 18/42, 42.9% (avg: 2.6s, rem: 62.1s)
-BusyBee: 21/42, 50.0% (avg: 2.3s, rem: 49.1s)
-BusyBee: 28/42, 66.7% (avg: 2.5s, rem: 34.6s)
-BusyBee: 39/42, 92.9% (avg: 2.3s, rem: 7.0s)
-BusyBee: Finished processing 42 items in 99.6s (avg: 2.4s)
+BusyBee:  1/42,  2.4% (avg: 3.2s cpu, rem: 16.5s)
+BusyBee: 15/42, 35.7% (avg: 2.4s cpu, rem: 8.1s)
+BusyBee: 21/42, 50.0% (avg: 2.5s cpu, rem: 6.5s)
+BusyBee: 24/42, 57.1% (avg: 2.6s cpu, rem: 5.8s)
+BusyBee: 34/42, 81.0% (avg: 2.5s cpu, rem: 2.5s)
+BusyBee: Finished processing 42 items in 16.1s (avg: 2.6s cpu)
 ```
 
 ## Advanced usage 👩‍💻 👨‍💻

@@ -53,6 +53,7 @@ class FinishStringTestSuite(unittest.TestCase):
     def test_finish_string_WHEN_given_info_THEN_all_in_output(self):
         actual = _sh._finish_string(
             time_start=0.0,
+            total_cpu_time=4.2,
             num_total=100,
             tag="tag",
             current_time=lambda: 4.2
@@ -65,6 +66,7 @@ class FinishStringTestSuite(unittest.TestCase):
     def test_finish_string_WHEN_given_zeros_THEN_output_valid(self):
         actual = _sh._finish_string(
             time_start=0.0,
+            total_cpu_time=0.0,
             num_total=0,
             tag="tag",
             current_time=lambda: 0.0
@@ -79,28 +81,28 @@ class ProgressStringTestSuite(unittest.TestCase):
 
     def test_progress_string_WHEN_given_info_THEN_all_in_output(self):
         actual = _sh._progress_string(
-            time_start=0.0,
+            total_cpu_time=42.0,
             num_processed=42,
             num_total=100,
+            num_processes=2,
             tag="tag",
-            current_time=lambda: 42
         )
         self.assertIn("tag:", actual)
         self.assertIn("42/100", actual)
         self.assertIn("42.0%", actual)
-        self.assertIn("avg: 1.0s", actual)
-        self.assertIn("rem: 58.0s", actual)
+        self.assertIn("avg: 1.0s cpu", actual)
+        self.assertIn("rem: 29.0s", actual)
 
     def test_progress_string_WHEN_given_zeros_THEN_output_valid(self):
         actual = _sh._progress_string(
-            time_start=0.0,
+            total_cpu_time=0.0,
             num_processed=0,
             num_total=0,
+            num_processes=2,
             tag="tag",
-            current_time=lambda: 0
         )
         self.assertIn("tag:", actual)
         self.assertIn("0/0", actual)
         self.assertIn("0%", actual)
-        self.assertIn("avg: -", actual)
+        self.assertIn("avg: - cpu", actual)
         self.assertIn("rem: -", actual)

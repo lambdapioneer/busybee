@@ -140,10 +140,11 @@ class OutputTestSuite(unittest.TestCase):
         self.assertIn("2 processes", recorder.output)
 
         self.assertIn("50/100, 50.0%", recorder.output)
-        self.assertIn("avg: 5ms,", recorder.output)
+        self.assertIn("avg: 10ms cpu,", recorder.output)
+        self.assertIn("rem: 0.3s", recorder.output)  # 50*10/2 = 250ms
 
         self.assertIn("Finished processing 100 items", recorder.output)
-        self.assertIn("(avg: 5ms)", recorder.output)
+        self.assertIn("(avg: 10ms cpu)", recorder.output)
 
 
 #

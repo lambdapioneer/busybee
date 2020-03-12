@@ -55,7 +55,7 @@ def _start_string(num_total, tag, num_processes):
     )
 
 
-def _finish_string(time_start, num_total, tag, current_time=lambda: time.time()):
+def _finish_string(time_start, total_cpu_time, num_total, tag, current_time=lambda: time.time()):
     """Returns a string to be displayed after processing finished. It contains
     the number of processed items, the total time, and the average time per item.
     It is prefixed by the `tag`.
@@ -65,18 +65,18 @@ def _finish_string(time_start, num_total, tag, current_time=lambda: time.time())
     """
     current_time = current_time()
     time_delta = current_time - time_start
-    time_avg = time_delta / num_total if num_total > 0 else None
+    average_cpu_time = total_cpu_time / num_total if num_total > 0 else None
 
-    fmt_string = "{tag}: Finished processing {num_total} items in {time_delta} (avg: {time_avg})"
+    fmt_string = "{tag}: Finished processing {num_total} items in {time_delta} (avg: {time_avg} cpu)"
     return fmt_string.format(
         tag=tag,
         num_total=num_total,
         time_delta=_relative_time_string(time_delta, no_ms=True),
-        time_avg=_relative_time_string(time_avg),
+        time_avg=_relative_time_string(average_cpu_time),
     )
 
 
-def _progress_string(time_start, num_processed, num_total, tag, current_time=lambda: time.time()):
+def _progress_string(total_cpu_time, num_processed, num_total, num_processes, tag):
     """Returns a string that reflects the current progress during execution. It contains
     the number of processed items, the total number of items, progress in percent, the
     average time per item so far, and an estimate of the remaining time. It is prefixed by the `tag`.
@@ -86,18 +86,18 @@ def _progress_string(time_start, num_processed, num_total, tag, current_time=lam
     """
     digits = math.log10(max(1, num_total)) + 1
 
-    current_time = current_time()
-    time_delta = current_time - time_start
-    time_avg = time_delta / num_processed if num_processed > 0 else None
+    cpu_time_avg = total_cpu_time / num_processed if num_processed > 0 else None
 
     percent = 100.0 * num_processed / num_total if num_total > 0 else 0.0
     items_remaining = num_total - num_processed
-    time_remaining = time_avg * items_remaining if time_avg else None
+
+    cpu_time_rem = cpu_time_avg * items_remaining if cpu_time_avg else None
+    time_remaining = cpu_time_rem / num_processes if cpu_time_rem else None
 
     fmt_tag = "{tag}"
     fmt_items = "{num_processed: >%d}/{num_total: >%d}, {percent:4.1f}%%" % (
         digits, digits)
-    fmt_times = "avg: {time_avg}, rem: {time_remaining}"
+    fmt_times = "avg: {time_avg} cpu, rem: {time_remaining}"
     fmt_string = "%s: %s (%s)" % (fmt_tag, fmt_items, fmt_times)
 
     return fmt_string.format(
@@ -105,6 +105,6 @@ def _progress_string(time_start, num_processed, num_total, tag, current_time=lam
         num_processed=num_processed,
         num_total=num_total,
         percent=percent,
-        time_avg=_relative_time_string(time_avg),
+        time_avg=_relative_time_string(cpu_time_avg),
         time_remaining=_relative_time_string(time_remaining, no_ms=True),
     )

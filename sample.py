@@ -12,8 +12,8 @@ import time
 def slow_prime_check(number):
     """This function is an intentionally slow and simple prime number check."""
 
-    # average wait time ~5ms.
-    time.sleep(0.1 * random.random())
+    # average wait time ~50ms.
+    time.sleep(100 / 1000 * random.random())
 
     for i in range(2, int(math.sqrt(number)+1)):
         if number % i == 0:

@@ -77,7 +77,7 @@ class MetaFuncTestSuite(unittest.TestCase):
         args = (func, data)
 
         actual = _busybee._meta_func(args)
-        self.assertEqual(2, actual)
+        self.assertEqual(2, actual[0])
 
 
 class ProgressUpdateLimitTestSuite(unittest.TestCase):
