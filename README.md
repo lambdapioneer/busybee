@@ -61,11 +61,15 @@ result = busybee.map(
 
 ## Q&A 🤔
 
-**Why did you built it? And why shouldn't I just use the `multiprocessing` module**
+**Why did you built it? And why shouldn't I just use the `multiprocessing` module?**
 
-I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often more involved than a one-line change.
+I started building BusyBee when I was working with a lot of I/O and pre-processing in Python Notebooks. Parallelizing these cells made it much faster, but it was often more involved than a one-line change. For instance, the worker pool needs manual clean-up and leaks a substantial amount of memory otherwise.
 
-More importantly, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some tea/coffee ☕.
+Also, it was hard to predict the remaining time and whether it was worth to avoid context switching or actually making some tea/coffee ☕.
+
+**Is there more than the `map(func, data, ...)` function?**
+
+Yes! While the `map` function is the most universal, there are more: The `filter(func, data, ...)` functions works similar to the regular `filter` function applied on lists. The `mk_dict(func, keys, ...)` function resembles the dictionary compression syntax `{k: func(k) for k in keys)`.
 
 **I want a different output!**
 
